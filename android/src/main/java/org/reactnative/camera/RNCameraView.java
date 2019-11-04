@@ -251,11 +251,26 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
 
   public void record(ReadableMap options, final Promise promise, File cacheDirectory) {
     try {
+      //kiem tra storage free space
+      long availableMemory = RNFileUtils.getAvailableInternalMemorySize();
+      System.out.println(availableMemory);
+      long totalMemory = RNFileUtils.getTotalInternalMemorySize();
+      System.out.println(totalMemory);
+      try {
+        if (availableMemory != -1 && availableMemory < 7){
+          RNFileUtils.DeleteFirst();
+        }
+      }
+      catch (Exception e){
+
+      }
+
+
       String path = options.hasKey("path") ? options.getString("path") : RNFileUtils.getOutputFilePath(cacheDirectory, ".mp4");
       int maxDuration = options.hasKey("maxDuration") ? options.getInt("maxDuration") : -1;
       int maxFileSize = options.hasKey("maxFileSize") ? options.getInt("maxFileSize") : -1;
 
-      CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+      CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
       if (options.hasKey("quality")) {
         profile = RNCameraViewHelper.getCamcorderProfile(options.getInt("quality"));
       }
@@ -275,6 +290,7 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
 
       if (super.record(path, maxDuration * 1000, maxFileSize, recordAudio, profile, orientation)) {
         mIsRecording = true;
+        RNCameraViewHelper.emitRecordingStartedEvent(this, path); // <= This line is new
         mVideoRecordedPromise = promise;
       } else {
         promise.reject("E_RECORDING_FAILED", "Starting video recording failed. Another recording might be in progress.");
@@ -283,6 +299,8 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       promise.reject("E_RECORDING_FAILED", "Starting video recording failed - could not create video file.");
     }
   }
+
+
 
   /**
    * Initialize the barcode decoder.
