@@ -156,8 +156,15 @@ public class RNCameraViewHelper {
       {"int", ExifInterface.TAG_RW2_SENSOR_TOP_BORDER},
       {"int", ExifInterface.TAG_RW2_ISO},
   };
-  // Mount error event
 
+  // Recording started event
+  public static void emitRecordingStartedEvent(ViewGroup view, String path) {
+    RecordingStartedEvent event = RecordingStartedEvent.obtain(view.getId(), path);
+    ReactContext reactContext = (ReactContext) view.getContext();
+    reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+  }
+
+  // Mount error event
   public static void emitMountErrorEvent(ViewGroup view, String error) {
     CameraMountErrorEvent event = CameraMountErrorEvent.obtain(view.getId(), error);
     ReactContext reactContext = (ReactContext) view.getContext();
@@ -250,6 +257,7 @@ public class RNCameraViewHelper {
   }
 
   private static int getCamcorderProfileQualityFromCameraModuleConstant(int quality) {
+    //return CamcorderProfile.QUALITY_480P;
     switch (quality) {
       case CameraModule.VIDEO_2160P:
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
