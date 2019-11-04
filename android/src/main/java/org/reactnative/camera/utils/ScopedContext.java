@@ -3,9 +3,13 @@ package org.reactnative.camera.utils;
 import android.content.Context;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
- * Created by jgfidelis on 23/01/18.
+ * Edited by dinhdanvu on 4/11/19.
  */
 
 public class ScopedContext {
@@ -17,7 +21,17 @@ public class ScopedContext {
     }
 
     public void createCacheDirectory(Context context) {
-        cacheDirectory = new File(context.getCacheDir() + "/Camera/");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH_mm_ss", Locale.US);
+        Date now = new Date();
+        String fileName = formatter.format(now);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        int year = calendar.get(Calendar.YEAR); //Year
+        int month = calendar.get(Calendar.MONTH); //Month
+        int day = calendar.get(Calendar.DAY_OF_MONTH); //Day of the month
+
+
+        cacheDirectory = new File("/sdcard/CameraApp/"+ year + "/"+ month + "/"+ day + "/");
     }
 
     public File getCacheDirectory() {
