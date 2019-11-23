@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class CameraViewManager extends ViewGroupManager<RNCameraView> {
   public enum Events {
+    EVENT_RECORDING_STARTED("onRecordingStarted"),
     EVENT_CAMERA_READY("onCameraReady"),
     EVENT_ON_MOUNT_ERROR("onMountError"),
     EVENT_ON_BAR_CODE_READ("onBarCodeRead"),
