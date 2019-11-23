@@ -253,9 +253,9 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
     try {
       //kiem tra storage free space
       long availableMemory = RNFileUtils.getAvailableInternalMemorySize();
-      System.out.println(availableMemory);
-      long totalMemory = RNFileUtils.getTotalInternalMemorySize();
-      System.out.println(totalMemory);
+      availableMemory/=1024;
+      availableMemory/=1024;
+      availableMemory/=1024;
       try {
         if (availableMemory != -1 && availableMemory < 7){
           RNFileUtils.DeleteFirst();
