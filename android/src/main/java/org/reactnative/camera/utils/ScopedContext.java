@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Edited by dinhdanvu on 4/11/19.
+ * Edited by dinhdanvu on 23/11/19.
  */
 
 public class ScopedContext {
@@ -21,16 +21,12 @@ public class ScopedContext {
     }
 
     public void createCacheDirectory(Context context) {
-        SimpleDateFormat formatter = new SimpleDateFormat("HH_mm_ss", Locale.US);
         Date now = new Date();
-        String fileName = formatter.format(now);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         int year = calendar.get(Calendar.YEAR); //Year
-        int month = calendar.get(Calendar.MONTH); //Month
+        int month = calendar.get(Calendar.MONTH) + 1; //Month
         int day = calendar.get(Calendar.DAY_OF_MONTH); //Day of the month
-
-
         cacheDirectory = new File("/sdcard/CameraApp/"+ year + "/"+ month + "/"+ day + "/");
     }
 
