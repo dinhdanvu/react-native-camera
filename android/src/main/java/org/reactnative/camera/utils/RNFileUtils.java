@@ -39,7 +39,7 @@ public class RNFileUtils {
         List<File> files = new ArrayList<>();
         FindFirstDayVideoInPath(ext + "/CameraApp", files);
         File[] fileArray =files.toArray(new File[files.size()]);
-        Arrays.sort(fileArray, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+        Arrays.sort(fileArray, LastModifiedFileComparator.LASTMODIFIED_COMPARATOR);
 
         String filePath = FilenameUtils.getPath(fileArray[0].getPath());
         return filePath;
